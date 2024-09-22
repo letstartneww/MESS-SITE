@@ -114,4 +114,62 @@
 </footer>
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Meal Notifications</title>
+</head>
+<body>
+    <h1>Daily Meal Notifications</h1>
+    <script>
+        // Function to show notification
+        function showNotification(message) {
+            if (Notification.permission === 'granted') {
+                new Notification("Meal Reminder", { body: message });
+            }
+        }
 
+        // Function to schedule daily notifications
+        function scheduleDailyNotification(hour, minute, message) {
+            const now = new Date();
+            let notificationTime = new Date();
+
+            // Set the notification time for today
+            notificationTime.setHours(hour);
+            notificationTime.setMinutes(minute);
+            notificationTime.setSeconds(0);
+
+            // If the time is in the past, schedule it for tomorrow
+            if (notificationTime < now) {
+                notificationTime.setDate(notificationTime.getDate() + 1);
+            }
+
+            const delay = notificationTime - now;
+
+            // Schedule the notification
+            setTimeout(() => {
+                showNotification(message);
+
+                // Set an interval to repeat the notification daily
+                setInterval(() => {
+                    showNotification(message);
+                }, 24 * 60 * 60 * 1000); // Repeat every 24 hours
+            }, delay);
+        }
+
+        // Request permission for notifications
+        if (Notification.permission !== 'granted') {
+            Notification.requestPermission();
+        }
+
+        // Schedule notifications for meals and snacks
+        scheduleDailyNotification(7, 30, "Breakfast is served! Don't forget to check the menu!");
+        scheduleDailyNotification(10, 30, "Time for a snack! Check out the options available.");
+        scheduleDailyNotification(13, 0, "Lunch is ready! Enjoy your meal!");
+        scheduleDailyNotification(17, 0, "Snack time! Don't miss out on the tasty treats.");
+        scheduleDailyNotification(20, 0, "Dinner time! Check out what's cooking tonight!");
+    </script>
+</body>
+</html>
