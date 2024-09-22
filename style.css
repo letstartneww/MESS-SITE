@@ -188,3 +188,12 @@ table tr:nth-child(even) {
 table tr:hover {
     background-color: #ddd;
 }
+
+footer a {
+    color: #4CAF50; /* Change the color as you prefer */
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
